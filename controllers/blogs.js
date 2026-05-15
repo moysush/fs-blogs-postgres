@@ -45,4 +45,17 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const blog = await Blog.findByPk(req.params.id);
+    blog.likes = req.body.likes;
+    await blog.save();
+    console.log(blog);
+    res.json(blog);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to update blog" });
+  }
+});
+
 module.exports = router;
