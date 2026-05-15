@@ -13,6 +13,16 @@ app.get("/ping", (req, res) => {
 
 app.use("/api/blogs", blogsRouter);
 
+const errorHandler = (err, req, res, next) => {
+  if (err.message) {
+    console.error(`${err.name}, ${err.message}`);
+    return res.status(400).json({ error: err.message });
+  }
+  next(err);
+};
+
+app.use(errorHandler);
+
 const start = async () => {
   try {
     await connectToDatabase();
